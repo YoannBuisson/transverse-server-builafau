@@ -1,24 +1,29 @@
+import {User} from "../model/User";
+
 export const typeDefs = `
 
     type User {
         name: String
         surname: String
-        dateOfBirth: String
+        dateOfBirth: Int
         friends: [User]
     }
     
-    type UserInput {
+    input UserInput {
         name: String
         surname: String
-        dateOfBirth: String
-        friends: [User]
+        dateOfBirth: Int
     }
 
     extend type Query {
         users: [User]
     }
+    
+    extend type Mutation {
+        createUser(input: UserInput!): User
+    }
+    
 `;
-
 
 const users = [
     {
@@ -42,5 +47,9 @@ export const resolvers = {
     Query: {
         users: () => users,
     },
-    Mutation: {}
+    Mutation: {
+        createUser: async (root, {input}, content, info) => {
+            return User.create(input);
+        }
+    }
 };
