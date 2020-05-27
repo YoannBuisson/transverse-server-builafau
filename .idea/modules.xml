@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/transverserver-builafau.iml" filepath="$PROJECT_DIR$/.idea/transverserver-builafau.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/transverse-server-builafau.iml" filepath="$PROJECT_DIR$/.idea/transverse-server-builafau.iml" />
     </modules>
   </component>
 </project>
