@@ -17,6 +17,7 @@ export const typeDefs = `
 
     extend type Query {
         users: [User]
+        userSchemaAssert: String
     }
     
     extend type Mutation {
@@ -46,6 +47,7 @@ const users = [
 export const resolvers = {
     Query: {
         users: () => users,
+        userSchemaAssert: async () => "Hello Client !",
     },
     Mutation: {
         createUser: async (root, {input}, content, info) => {
