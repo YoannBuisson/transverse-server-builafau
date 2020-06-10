@@ -46,7 +46,7 @@ const users = [
 // schema. This resolver retrieves books from the "books" array above.
 export const resolvers = {
     Query: {
-        users: () => users,
+        users: async () => User.find(),
         userSchemaAssert: async () => "Hello Client !",
     },
     Mutation: {

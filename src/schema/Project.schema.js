@@ -66,7 +66,7 @@ const projects = [
 // schema. This resolver retrieves books from the "books" array above.
 export const resolvers = {
     Query: {
-        projects: () => projects,
+        projects: async () => projects,
     },
     Mutation: {}
 };
