@@ -1,9 +1,13 @@
+import {Task} from "../model/Task";
+
 export const typeDefs = `
 
     type Task {
+        _id: ID!
         name: String
         duration: Int
         priority: Int
+        status: Boolean
         assignee: User
     }
 
@@ -11,6 +15,7 @@ export const typeDefs = `
         name: String
         duration: Int
         priority: Int
+        status: Boolean
         assignee: User
     }
 
@@ -20,37 +25,11 @@ export const typeDefs = `
 `;
 
 
-const tasks = [
-    {
-        name: "Task one",
-        duration: 5,
-        priority: 1,
-        assignee: {
-            name: "Doe",
-            surname: "John",
-            login: "user1",
-            pass: "password1"
-        }
-    },
-    {
-        name: "Task two",
-        duration: 3,
-        priority: 5,
-        assignee: {
-            name: "C. Harden",
-            surname: "James",
-            login: "user2",
-            pass: "password2"
-        }
-    },
-];
-
-
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves books from the "books" array above.
 export const resolvers = {
     Query: {
-        tasks: () => tasks,
+        tasks: async () => Task.find(),
     },
     Mutation: {}
 };

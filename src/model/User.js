@@ -2,10 +2,10 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    name: String,
-    surname: String,
-    dateOfBirth: Date,
-    friends: [{ type: Schema.Types.ObjectId, ref: 'User'}],
+    firstName: String,
+    lastName: String,
+    password: String,
+    username: String,
 }, {collection:'User'});
 
 
