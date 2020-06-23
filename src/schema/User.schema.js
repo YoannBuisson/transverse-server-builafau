@@ -1,6 +1,6 @@
 import {User} from "../model/User";
 
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const {APP_SECRET, getUserId} = require('../utils')
 
@@ -55,14 +55,13 @@ export const resolvers = {
                 user,
             }
         },
-        login: async (root, {input}, context, info) => {
-            const {password, ...user} = await User.find({email: input.email})
+        login: async (root, args, context, info) => {
+            const user = await User.findOne({username: args.username})
             if (!user) {
                 throw new Error('User not found')
             }
 
-            const valid = await bcrypt.compare(input.password, password)
-            if (!valid) {
+            if (!await bcrypt.compareSync(args.password, user.password)) {
                 throw new Error('Invalid password')
             }
 
