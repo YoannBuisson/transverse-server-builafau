@@ -14,6 +14,10 @@ import {
     typeDefs as Project,
     resolvers as projectResolvers,
 } from './schema/Project.schema';
+import {
+    typeDefs as Student,
+    resolvers as studentResolvers,
+} from './schema/Student.schema';
 
 // General query
 const Query = `
@@ -24,6 +28,10 @@ const Query = `
   type Mutation {
     _empty: String
   }
+  
+  type AuthPayload {
+    _empty: String
+   }
 
   type Subscription {
     _empty: String
@@ -33,6 +41,6 @@ const Query = `
 const resolvers = {};
 
 export const schema = makeExecutableSchema({
-    typeDefs: [Query, User, Task, Project],
-    resolvers: merge(resolvers, userResolvers, taskResolvers, projectResolvers),
+    typeDefs: [Query, User, Student, Task, Project],
+    resolvers: merge(resolvers, userResolvers, studentResolvers, taskResolvers, projectResolvers),
 });

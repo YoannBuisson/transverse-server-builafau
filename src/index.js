@@ -8,7 +8,13 @@ mongoose.connect(process.env["MONGO_URL"], {useNewUrlParser: true});
 
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
-const server = new ApolloServer({schema});
+const server = new ApolloServer({
+    schema, context: request => {
+        return {
+            ...request
+        }
+    }
+});
 
 // The `listen` method launches a web server.
 server.listen().then(({url}) => {
