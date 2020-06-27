@@ -31,6 +31,7 @@ export const resolvers = {
     },
     Mutation: {
         createStudentWithInput: async (root, {input}, context, info) => {
+            const userId = getUserId(context);
             return Student.create(input);
         }
     }
