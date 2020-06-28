@@ -1,48 +1,24 @@
-import { ApolloServer,gql } from 'apollo-server';
+import {schema} from "./src/schema";
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import {getUserId} from "./src/utils";
 
-const typeDefs = gql`
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
+const {ApolloServer} = require('apollo-server');
 
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
-  }
+dotenv.config();
 
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
-  type Query {
-    books: [Book]
-  }
-`;
+mongoose.connect(process.env["MONGO_URL"], { useNewUrlParser: true, useUnifiedTopology: true });
 
+const server = new ApolloServer({
+    schema,
+    context: ({req}) => {
+        // const token = req.headers.authorization || '';
+        // const userId = getUserId(token);
+        //
+        // return {userId};
+    }
+});
 
-const books = [
-    {
-      title: 'Harry Potter and the Chamber of Secrets',
-      author: 'J.K. Rowling',
-    },
-    {
-      title: 'Jurassic Park',
-      author: 'Michael Crichton',
-    },
-  ];
-
-
-// Resolvers define the technique for fetching the types defined in the
-// schema. This resolver retrieves books from the "books" array above.
-const resolvers = {
-    Query: {
-      books: () => books,
-    },
-  };
-
-// The ApolloServer constructor requires two parameters: your schema
-// definition and your set of resolvers.
-const server = new ApolloServer({ typeDefs, resolvers });
-
-// The `listen` method launches a web server.
-server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
+server.listen().then(({url}) => {
+    console.log(`Server is running here : ${url}`);
 });

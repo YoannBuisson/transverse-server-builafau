@@ -1,8 +1,9 @@
 import {User} from "../model/User";
+import {UserInputError} from "apollo-server-errors";
 
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const {APP_SECRET, getUserId} = require('../utils')
+const {APP_SECRET} = require('../utils')
 
 export const typeDefs = `
 
@@ -32,8 +33,7 @@ export const typeDefs = `
     extend type AuthPayload {
         token: String
         user: User
-    }
-    
+    }  
 `;
 
 export const resolvers = {
@@ -43,6 +43,21 @@ export const resolvers = {
     Mutation: {
         signUp: async (root, {input}, context, info) => {
             const hashedPassword = await bcrypt.hash(input.password, 10)
+            const validationErrors = {};
+
+            const usernameUser = await User.findOne({username: input.username});
+            if(usernameUser) {
+                validationErrors.username = "This username already exists";
+
+            }
+            const emailUser = await User.findOne({email: input.email});
+            if(emailUser) {
+                validationErrors.email = "This email already exists";
+            }
+            if (Object.keys(validationErrors).length > 0) {
+                throw new UserInputError("Failed to register due to validation errors", {validationErrors})
+            }
+
             const user = await User.create({
                 email: input.email,
                 username: input.username,
