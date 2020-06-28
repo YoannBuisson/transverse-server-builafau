@@ -9,7 +9,7 @@ export const typeDefs = `
         duration: Int
         priority: Int
         status: Boolean
-        }
+    }
 
     input TaskInput {
         name: String
@@ -23,7 +23,7 @@ export const typeDefs = `
     }
 
     extend type Mutation {
-        createTaskWithInput(_id: ID, input: TaskInput!): Task
+        createTaskWithInput(_id: ID!, input: TaskInput!): Task
     }
 `;
 
@@ -33,13 +33,14 @@ export const resolvers = {
     },
     Mutation: {
         createTaskWithInput: async (root, {_id, input}, context, info) => {
-            var task = await Task.create(input);
-            var project = await Project.findByIdAndUpdate(_id,{
+            const task = await Task.create(input);
+            const project = await Project.findByIdAndUpdate(_id, {
                 $push: {
                     tasks: task
                 }
-            })
+            });
             project.save();
+
             return task;
         }
     }

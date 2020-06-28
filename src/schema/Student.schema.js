@@ -6,6 +6,7 @@ export const typeDefs = `
         _id: ID!
         firstName: String
         lastName: String
+        birthDate: Date
         email: String
         projects: [Project]
     }
@@ -13,6 +14,7 @@ export const typeDefs = `
     input StudentInput {
         firstName: String
         lastName: String
+        birthDate: Date
         email: String
     }
 
@@ -48,14 +50,14 @@ export const resolvers = {
                 throw new Error("Impossible d'effectuer cette opération sans être connecté.");
             }
 
-            return Student.remove({_id});
+            return await Student.remove({_id});
         },
         updateStudent: async (root, {_id, input}, context, info) => {
             // if (!context.userId) {
             //     throw new Error("Impossible d'effectuer cette opération sans être connecté.");
             // }
 
-            return Student.findByIdAndUpdate(_id, input, {new: true});
+            return await Student.findByIdAndUpdate(_id, input, {new: true});
         }
     }
 };

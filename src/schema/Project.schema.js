@@ -6,12 +6,14 @@ export const typeDefs = `
         _id: ID!
         name: String
         description: String
+        dateOfReturn: Date
         tasks: [Task]
     }
 
     input ProjectInput {
         name: String
         description: String
+        dateOfReturn: Date
     }
 
     extend type Query {
