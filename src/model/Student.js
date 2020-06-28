@@ -5,6 +5,7 @@ const studentSchema = new Schema({
     firstName: String,
     lastName: String,
     email: String,
+    projects: [{ type: Schema.Types.ObjectId, ref: 'Project'}]
 }, {collection:'Student'});
 
 

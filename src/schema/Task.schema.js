@@ -1,4 +1,5 @@
 import {Task} from "../model/Task";
+import {Project} from "../model/Project";
 
 export const typeDefs = `
 
@@ -8,28 +9,38 @@ export const typeDefs = `
         duration: Int
         priority: Int
         status: Boolean
-        assignee: User
-    }
+        }
 
-    type TaskInput {
+    input TaskInput {
         name: String
         duration: Int
         priority: Int
         status: Boolean
-        assignee: User
     }
 
     extend type Query {
         tasks: [Task]
     }
+
+    extend type Mutation {
+        createTaskWithInput(_id: ID, input: TaskInput!): Task
+    }
 `;
 
-
-// Resolvers define the technique for fetching the types defined in the
-// schema. This resolver retrieves books from the "books" array above.
 export const resolvers = {
     Query: {
         tasks: async () => Task.find(),
     },
-    Mutation: {}
+    Mutation: {
+        createTaskWithInput: async (root, {_id, input}, context, info) => {
+            var task = await Task.create(input);
+            var project = await Project.findByIdAndUpdate(_id,{
+                $push: {
+                    tasks: task
+                }
+            })
+            project.save();
+            return task;
+        }
+    }
 };

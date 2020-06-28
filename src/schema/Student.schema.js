@@ -8,6 +8,7 @@ export const typeDefs = `
         firstName: String
         lastName: String
         email: String
+        projects: [Project]
     }
     
     input StudentInput {

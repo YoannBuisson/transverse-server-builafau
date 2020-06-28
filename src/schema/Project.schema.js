@@ -5,25 +5,31 @@ export const typeDefs = `
     type Project {
         _id: ID!
         name: String
-        creator: [User]
+        description: String
+        tasks: [Task]
     }
 
-    type ProjectInput {
+    input ProjectInput {
         name: String
-        creator: [User]
+        description: String
     }
 
     extend type Query {
-        getProjects: [Project]
+        projects: [Project]
     }
+    
+    extend type Mutation {
+        createProjectWithInput(input: ProjectInput!): Project
+      }
 `;
 
-
-// Resolvers define the technique for fetching the types defined in the
-// schema. This resolver retrieves books from the "books" array above.
 export const resolvers = {
     Query: {
-        getProjects: async () => Project.find(),
+        projects: async () => Project.find(),
     },
-    Mutation: {}
+    Mutation: {
+        createProjectWithInput: async (root, { input }, context, info) => {
+            return Project.create(input);
+        },
+    }
 };
