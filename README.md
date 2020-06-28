@@ -8,7 +8,7 @@ Il est nécessaire d'avoir **MongoDB** de fonctionnel et qui tourne avec une bas
 
 ## Installation 
 
-L'installation est très rapide puisqu'il est seulement nécessaire d'effectuer une commande !
+Pour installer les dépendances npm, il suffit de lancer une seule commande.
 ```sh
 $ npm install
 ```
@@ -20,4 +20,4 @@ Le lancement est tout aussi rapide puisqu'il suffit seulement de lancer une comm
 $ npm start
 ```
 
-Le serveur et ensuite accessible sur http://localhost:4000.
+Le serveur est ensuite accessible sur http://localhost:4000.
