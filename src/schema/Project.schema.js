@@ -1,6 +1,7 @@
 import {Project} from "../model/Project";
 
 export const typeDefs = `
+    scalar Date
 
     type Project {
         _id: ID!
@@ -22,7 +23,10 @@ export const typeDefs = `
     
     extend type Mutation {
         createProjectWithInput(input: ProjectInput!): Project
-      }
+    }
+    
+    
+    
 `;
 
 export const resolvers = {

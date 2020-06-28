@@ -1,6 +1,7 @@
 import {Student} from "../model/Student";
 
 export const typeDefs = `
+    scalar Date
 
     type Student {
         _id: ID!
