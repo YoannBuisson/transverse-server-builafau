@@ -19,19 +19,20 @@ export const typeDefs = `
 
     extend type Query {
         projects: [Project]
+        projectById(_id: ID!): Project
     }
     
     extend type Mutation {
         createProjectWithInput(_id: ID!, input: ProjectInput!): Project
     }
-    
-    
-    
 `;
 
 export const resolvers = {
     Query: {
         projects: async () => Project.find(),
+        projectById: async (root, {_id}, context, info) => {
+            return Project.findOne({_id :_id}).populate('tasks');
+        }
     },
     Mutation: {
         createProjectWithInput: async (root, { _id, input }, context, info) => {
