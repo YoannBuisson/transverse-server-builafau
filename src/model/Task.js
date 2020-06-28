@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import {User} from "./User";
 const Schema = mongoose.Schema;
 
 const taskSchema = new Schema({
@@ -7,7 +6,6 @@ const taskSchema = new Schema({
     duration: Number,
     priority: Number,
     status: Boolean,
-    assignee: [{ type: Schema.Types.ObjectId, ref: 'User'}],
 }, {collection: 'Task'});
 
 
