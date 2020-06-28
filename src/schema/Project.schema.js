@@ -1,4 +1,6 @@
 import {Project} from "../model/Project";
+import {Task} from "../model/Task";
+import {Student} from "../model/Student";
 
 export const typeDefs = `
     type Project {
@@ -20,7 +22,7 @@ export const typeDefs = `
     }
     
     extend type Mutation {
-        createProjectWithInput(input: ProjectInput!): Project
+        createProjectWithInput(_id: ID!, input: ProjectInput!): Project
     }
     
     
@@ -32,8 +34,15 @@ export const resolvers = {
         projects: async () => Project.find(),
     },
     Mutation: {
-        createProjectWithInput: async (root, { input }, context, info) => {
-            return Project.create(input);
+        createProjectWithInput: async (root, { _id, input }, context, info) => {
+            const project = await Project.create(input);
+            const student = await Student.findOneAndUpdate(_id, {
+                $push: {
+                    projects: project
+                }
+            });
+            student.save();
+            return project;
         },
     }
 };
