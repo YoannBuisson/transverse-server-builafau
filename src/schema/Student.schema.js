@@ -1,4 +1,6 @@
 import {Student} from "../model/Student";
+import {Task} from "../model/Task";
+import {Project} from "../model/Project";
 
 export const typeDefs = `
     type Student {
@@ -25,7 +27,7 @@ export const typeDefs = `
     extend type Mutation {
         createStudentWithInput(input: StudentInput!): Student
         deleteStudent(_id: ID!): Student
-        updateStudent(_id: ID!, input: StudentInput!): Student
+        updateStudent(studentId: ID!, projectId: ID!): Student
     }
 `;
 
@@ -38,25 +40,31 @@ export const resolvers = {
     },
     Mutation: {
         createStudentWithInput: async (root, {input}, context, info) => {
-            // if (!context.userId) {
-            //     throw new Error("Impossible d'effectuer cette opération sans être connecté.");
-            // }
+            // TODO Authorization
 
             return Student.create(input);
         },
         deleteStudent: async (root, {_id}, context, info) => {
+            // TODO Authorization
+
             if (!context.userId) {
                 throw new Error("Impossible d'effectuer cette opération sans être connecté.");
             }
 
             return await Student.remove({_id});
         },
-        updateStudent: async (root, {_id, input}, context, info) => {
-            // if (!context.userId) {
-            //     throw new Error("Impossible d'effectuer cette opération sans être connecté.");
-            // }
+        updateStudent: async (parent, args, context, info) => {
+            // TODO Authorization
 
-            return await Student.findByIdAndUpdate(_id, input, {new: true});
+            const project = await Project.findOne({_id: args.projectId});
+            const student = await Student.findByIdAndUpdate(args.studentId, {
+                $push: {
+                    projects: project
+                }
+            });
+            student.save();
+
+            return student;
         }
     }
 };
