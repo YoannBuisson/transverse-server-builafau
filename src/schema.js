@@ -20,6 +20,8 @@ import {
 
 // General query
 const Query = `
+  scalar Date
+
   type Query {
     _empty: String
   }

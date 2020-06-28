@@ -1,8 +1,6 @@
 import {Project} from "../model/Project";
 
 export const typeDefs = `
-    scalar Date
-
     type Project {
         _id: ID!
         name: String
