@@ -1,5 +1,4 @@
 import {Project} from "../model/Project";
-import {Task} from "../model/Task";
 import {Student} from "../model/Student";
 
 export const typeDefs = `
@@ -31,11 +30,11 @@ export const resolvers = {
     Query: {
         projects: async () => Project.find(),
         projectById: async (root, {_id}, context, info) => {
-            return Project.findOne({_id :_id}).populate('tasks');
+            return Project.findOne({_id: _id}).populate('tasks');
         }
     },
     Mutation: {
-        createProjectWithInput: async (root, { _id, input }, context, info) => {
+        createProjectWithInput: async (root, {_id, input}, context, info) => {
             const project = await Project.create(input);
             const student = await Student.findOneAndUpdate(_id, {
                 $push: {
