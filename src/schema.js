@@ -1,7 +1,6 @@
 import {makeExecutableSchema} from "graphql-tools";
 import {merge} from "lodash";
 
-// Entities typedefs and resolvers
 import {
     typeDefs as User,
     resolvers as userResolvers,

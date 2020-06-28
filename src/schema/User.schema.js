@@ -3,7 +3,7 @@ import {UserInputError} from "apollo-server-errors";
 
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const {APP_SECRET, getUserId} = require('../utils')
+const {APP_SECRET} = require('../utils')
 
 export const typeDefs = `
 
@@ -33,8 +33,7 @@ export const typeDefs = `
     extend type AuthPayload {
         token: String
         user: User
-    }
-    
+    }  
 `;
 
 export const resolvers = {
